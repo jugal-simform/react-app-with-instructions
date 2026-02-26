@@ -1,0 +1,51 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "🔍 Running security pre-commit checks..."
+
+FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(js|ts|tsx|jsx)$')
+
+if [ -z "$FILES" ]; then
+  echo "✅ No relevant files to scan."
+  exit 0
+fi
+
+# -----------------------------
+# 1. Block secrets & credentials
+# -----------------------------
+SECRET_PATTERNS='(api[_-]?key|secret|token|password|private[_-]?key|jwt)'
+
+if grep -iE "$SECRET_PATTERNS" $FILES; then
+  echo "❌ Commit blocked: Potential secret detected."
+  echo "🔐 Remove hard-coded secrets before committing."
+  exit 1
+fi
+
+# --------------------------------
+# 2. Block TODO / FIXME leftovers
+# --------------------------------
+if grep -nE '(TODO|FIXME)' $FILES; then
+  echo "❌ Commit blocked: TODO/FIXME found."
+  echo "🧹 Complete or remove unfinished code."
+  exit 1
+fi
+
+# --------------------------------
+# 3. Block console.log / debugger
+# --------------------------------
+if grep -nE '(console\.log|debugger)' $FILES; then
+  echo "❌ Commit blocked: Debug statements detected."
+  echo "🛑 Remove console.log/debugger before commit."
+  exit 1
+fi
+
+# --------------------------------
+# 4. Block empty catch blocks
+# --------------------------------
+if grep -nE 'catch\s*\(\s*\)\s*\{\s*\}' $FILES; then
+  echo "❌ Commit blocked: Empty catch block detected."
+  echo "⚠️ Handle errors explicitly."
+  exit 1
+fi
+
+echo "✅ Pre-commit security checks passed."
