@@ -76,7 +76,7 @@ function App() {
     // Allowlist: exactly 10 digits starting with 6–9 (Indian mobile numbers)
     const indianPhoneRegex = /^[6-9]\d{9}$/
     if (!indianPhoneRegex.test(value)) {
-      return 'Phone number must be a valid Indian phone number (10 digits starting with 6, 7, 8, or 9)'
+      return 'Phone number must be a valid Indian Phone Number'
     }
     return undefined
   }
@@ -207,17 +207,14 @@ function App() {
               onChange={handleChange}
               className="phone-input"
               aria-invalid={!!errors.phone}
-              aria-describedby={errors.phone ? 'phone-error' : 'phone-hint'}
-              placeholder="9876543210"
+              aria-describedby={errors.phone ? 'phone-error' : undefined}
+              placeholder="9XXXXXXXXX"
               maxLength={10}
               aria-label="Phone number (10 digits, country code +91 is pre-filled)"
             />
           </div>
           {errors.phone && (
             <span id="phone-error" className="error-message">{errors.phone}</span>
-          )}
-          {!errors.phone && (
-            <span id="phone-hint" className="sr-only">Enter 10-digit Indian mobile number. Country code +91 is pre-filled.</span>
           )}
         </div>
 
