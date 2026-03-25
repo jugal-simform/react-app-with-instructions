@@ -66,17 +66,17 @@ function App() {
   }
 
   /**
-   * Validates phone number: only digits and optional leading +
-   * Enforces length constraints (10-15 digits)
+   * Validates Indian phone number: exactly 10 digits starting with 6, 7, 8, or 9.
+   * The +91 country code is a fixed, non-editable prefix in the UI.
    */
   const validatePhone = (value: string): string | undefined => {
     if (!value.trim()) {
       return 'Phone number is required'
     }
-    // Allowlist: optional + at start, then only digits
-    const phoneRegex = /^\+?\d{10,15}$/
-    if (!phoneRegex.test(value)) {
-      return 'Phone number must be 10-15 digits, optionally starting with +'
+    // Allowlist: exactly 10 digits starting with 6–9 (Indian mobile numbers)
+    const indianPhoneRegex = /^[6-9]\d{9}$/
+    if (!indianPhoneRegex.test(value)) {
+      return 'Phone number must be a valid Indian Phone Number'
     }
     return undefined
   }
@@ -89,7 +89,7 @@ function App() {
     const maxLengths: Record<string, number> = {
       name: 50,
       address: 200,
-      phone: 16 // +15 digits max
+      phone: 10 // Indian mobile numbers are exactly 10 digits
     }
     
     if (value.length > maxLengths[name]) {
@@ -128,7 +128,10 @@ function App() {
     
     if (!hasErrors) {
       // Form is valid - process submission
-      console.log('Form submitted successfully:', formData)
+      console.log('Form submitted successfully:', {
+        ...formData,
+        phone: `+91${formData.phone}`
+      })
       setSubmitted(true)
       
       // Reset form after successful submission
@@ -193,16 +196,23 @@ function App() {
 
         <div className="form-group">
           <label htmlFor="phone">Phone Number *</label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            className={errors.phone ? 'error' : ''}
-            aria-invalid={!!errors.phone}
-            aria-describedby={errors.phone ? 'phone-error' : undefined}
-          />
+          <div className={`phone-input-wrapper${errors.phone ? ' error' : ''}`}>
+            {/* Non-editable +91 country code prefix for Indian phone numbers */}
+            <span className="phone-prefix">+91</span>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              className="phone-input"
+              aria-invalid={!!errors.phone}
+              aria-describedby={errors.phone ? 'phone-error' : undefined}
+              placeholder="9XXXXXXXXX"
+              maxLength={10}
+              aria-label="Phone number (10 digits, country code +91 is pre-filled)"
+            />
+          </div>
           {errors.phone && (
             <span id="phone-error" className="error-message">{errors.phone}</span>
           )}
