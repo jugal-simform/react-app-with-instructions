@@ -67,7 +67,8 @@ textarea.error {
   font-size: 1rem;
   font-weight: 600;
   color: white;
-  background-color: #646cff;
+  /* Darker blue to ensure sufficient contrast with white text */
+  background-color: #4348d4;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -80,7 +81,7 @@ textarea.error {
 }
 
 .submit-button:active {
-  background-color: #4348d4;
+  background-color: #2f36b8;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -138,5 +139,6 @@ textarea.error {
 }
 
 .read-the-docs {
-  color: #888;
+  /* Darken text for better contrast on light backgrounds */
+  color: #374151;
 }

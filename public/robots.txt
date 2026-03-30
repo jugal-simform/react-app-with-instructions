@@ -1,0 +1,6 @@
+# robots.txt — allows all crawlers. Replace example.com with your real domain.
+User-agent: *
+Allow: /
+
+# Point crawlers to your sitemap (replace with your site URL).
+Sitemap: https://example.com/sitemap.xml

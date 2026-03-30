@@ -5,9 +5,42 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>my-react-app-with-instuctions</title>
+    <!-- SEO: concise meta description for search engines -->
+    <meta name="description" content="A simple React task management demo app with Kanban-style board, project list, and AI-assisted features." />
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:title" content="my-react-app-with-instuctions" />
+    <meta property="og:description" content="A React task management demo app with Kanban board, project list, and AI features." />
+    <meta property="og:type" content="website" />
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="my-react-app-with-instuctions" />
+    <meta name="twitter:description" content="A React task management demo app with Kanban board, project list, and AI features." />
+    <style>
+      /* Accessible skip link: hidden until keyboard focus */
+      .skip-link{
+        position: absolute;
+        left: -999px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      }
+      .skip-link:focus{
+        left: 1rem;
+        top: 1rem;
+        width: auto;
+        height: auto;
+        background: #fff;
+        padding: 0.5rem 1rem;
+        z-index: 9999;
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <main id="main" role="main">
+      <div id="root"></div>
+    </main>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
